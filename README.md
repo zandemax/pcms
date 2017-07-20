@@ -1,4 +1,4 @@
-# Project Title
+# PCMS
 
 PCMS is intended to be a In-Car-Infotainment System which can be run off a Raspberry Pi, expanding older Cars for Bluetooth and Infotainment functionalities.
 
@@ -31,4 +31,3 @@ See also the list of [contributors](https://github.com/your/project/contributors
 ## License
 
 This project is licensed under the GNU General Public License - see the [LICENSE.md](LICENSE.md) file for details
->P
