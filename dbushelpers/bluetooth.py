@@ -6,7 +6,6 @@ import pydbus
 
 class BluetoothManager(EventDispatcher):
 
-    connected = BooleanProperty()
     interfaces = DictProperty()
     modems = DictProperty()
 
@@ -33,6 +32,15 @@ class BluetoothManager(EventDispatcher):
         modems = self.ofono.GetModems()
         for modem in modems:
             self.modems[modem[0]] = modem[1]
+
+    #TODO: Implement on_property_changed for modems
+
+    def get_device_serial(self):
+        for modem in self.modems:
+            if self.modems[modem]['Online'] == True:
+                modem = self.bus.get('org.ofono', modem)
+                properties = modem.GetProperties()
+                return properties['Serial']
 
     def on_interfaces_added(self, object, properties):
         #print(properties)

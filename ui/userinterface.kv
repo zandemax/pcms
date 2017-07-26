@@ -546,3 +546,38 @@
         color: .7, .7, .7, 1
         source: '/home/zandemax/coding/pcms/img/icon_music.png'
         id: music
+
+<Row@BoxLayout>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    value: ''
+    Label:
+        text: root.value
+        color: 0,0,0,1
+
+<Phonebook>
+    canvas:
+        Color:
+            rgba: 0.7, 0.7, 0.7, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: rv
+    orientation: 'vertical'
+    RecycleView:
+        id: rv
+        scroll_type: ['bars', 'content']
+        scroll_wheel_distance: dp(114)
+        bar_width: dp(10)
+        viewclass: 'Row'
+        RecycleBoxLayout:
+            default_size: None, dp(56)
+            default_size_hint: 0.8, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            spacing: dp(10)

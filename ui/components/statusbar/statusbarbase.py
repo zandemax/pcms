@@ -14,8 +14,8 @@ class StatusBarBase(Widget):
     def set_app(self, app):
         self.app = app
         app.a2dp.bind(connected=self.on_connected_change)
-        app.telman.bind(carrier = self.on_carrier_change)
-        app.telman.bind(network_strength = self.on_signal_change)
+        app.hfp.bind(carrier = self.on_carrier_change)
+        app.hfp.bind(network_strength = self.on_signal_change)
         self.on_connected_change('','')
         self.on_carrier_change('', '')
         self.on_signal_change('', '')
@@ -26,25 +26,23 @@ class StatusBarBase(Widget):
         self.ids.time.text = time.strftime('%H:%M')
 
     def on_connected_change(self, instance, value):
-        if self.app.a2dp.connected == True:
+        if value == True:
             self.ids.bluetooth.source = '/home/zandemax/coding/pcms/img/icon_bluetooth_connected.png'
         else:
             self.ids.bluetooth.source = '/home/zandemax/coding/pcms/img/icon_bluetooth.png'
 
     def on_signal_change(self, instance, value):
-        if self.app.telman.network_strength == 0:
-            pass
+        if self.app.hfp.network_strength == 0:
             self.ids.cellular.source = '/home/zandemax/coding/pcms/img/icon_cellular_nonet.png'
             self.ids.cellular.reload()
         else:
-            pass
             self.ids.cellular.source = '/home/zandemax/coding/pcms/img/icon_cellular_connected.png'
             self.ids.cellular.reload()
         Logger.info('Statusbar ('+str(self.parent)+'): Update')
 
     def on_carrier_change(self, instance, value):
-        if self.app.telman.carrier != None:
-            self.ids.carrier.text = self.app.telman.carrier
+        if self.app.hfp.carrier != None:
+            self.ids.carrier.text = self.app.hfp.carrier
         else:
             self.ids.carrier.text = 'no carrier'
 
