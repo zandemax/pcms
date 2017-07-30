@@ -4,7 +4,7 @@ from kivy.event import EventDispatcher
 from kivy.properties import *
 from kivy.logger import Logger
 
-class TelephonyManager(EventDispatcher):
+class HFPManager(EventDispatcher):
 
     status = StringProperty()
     carrier = StringProperty()
@@ -13,24 +13,23 @@ class TelephonyManager(EventDispatcher):
     held_call = ObjectProperty()
     pending_call = ObjectProperty()
 
-    def __init__(self):
+    def __init__(self, bluetooth):
         Logger.info('Telephony: Loading telephony-module ...')
-        self.bus = pydbus.SystemBus()
-        self.ofono = self.bus.get('org.ofono','/')
-        self.connected = False
+        bluetooth.bind(modems = self.on_modems_change)
+        self.bluetooth = bluetooth
+        self.on_modems_change(self, bluetooth.modems)
 
-    def connect(self, path):
-        modems = self.ofono.GetModems()
-        for i in modems:
-            if '/hfp'+path in i:
-                modem = self.bus.get('org.ofono','/hfp'+path)
-                modem.SetProperty('Powered', GLib.Variant('b', True))
-                self.connected = True
-                self.modem = modem
+    def on_modems_change(self, instance, value):
+        for modem in value:
+            if value[modem]['Online'] == True:
+                self.modem = self.bluetooth.bus.get('org.ofono', modem)
                 self.modem.CallAdded.connect(self.on_call_added)
-                print(self.modem['org.ofono.NetworkRegistration'].PropertyChanged.connect(self.on_netstat_changed))
+                self.modem['org.ofono.NetworkRegistration'].PropertyChanged.connect(self.on_netstat_changed)
+                self.connected = True
                 self.get_properties()
-                Logger.info('Telephony: Connected HFP device')
+                return
+        self.modem = None
+        self.connected = False
 
     def call(self, number):
         #self.number = number

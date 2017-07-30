@@ -124,4 +124,10 @@ pip-selfcheck.json
 
 bin/
 
+img/
+
+include/
+
+.*
+
 # End of https://www.gitignore.io/api/linux,python
