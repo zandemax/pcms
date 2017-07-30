@@ -20,31 +20,42 @@ class UserInterface(App):
         self.hfp = HFPManager(self.bluetooth)
         self.a2dp = A2DPManager(self.bluetooth)
         self.pbap = PhonebookManager(self.bluetooth)
-
         self.a2dp.bind(connected=self.on_connected_change)
         self.hfp.bind(status=self.on_call_status_change)
 
-##### UI ######
-        screenmanager = ScreenManager()
-        self.musicplayer = MusicPlayer(name='music', a2dp=self.a2dp, app=self)
-        screenmanager.add_widget(self.musicplayer)
-#        screenmanager.add_widget(TelephonyIncoming(name='telephony_incoming', hfp=self.hfp))
-#        screenmanager.add_widget(TelephonyDialling(name='telephony_dialling', hfp=self.hfp))
-#        screenmanager.add_widget(TelephonyActive(name='telephony_active', hfp=self.hfp))
-#        screenmanager.add_widget(Dialler(name='dialler', hfp=self.hfp, app=self))
+        view = BaseView()
+
+        self.statusbar = view.ids.statusbar
+        self.statusbar.set_app(self)
+        self.statusbar.set_title('Home')
+        self.controlbar = view.ids.controlbar
+        self.controlbar.ids.phone.bind(on_press=self.on_screen_switch)
+        self.controlbar.ids.home.bind(on_press=self.on_screen_switch)
+        self.controlbar.ids.music.bind(on_press=self.on_screen_switch)
+
+
+        screenmanager = view.ids.screenmanager
+        screenmanager.add_widget(MusicPlayer(name='music', a2dp=self.a2dp, app=self))
         screenmanager.add_widget(Phonebook(name='phonebook', pbap=self.pbap))
         screenmanager.add_widget(HomeScreen(name='homescreen', app=self))
-        screenmanager.current = 'phonebook'
+        screenmanager.current = 'homescreen'
         screenmanager.transition = CardTransition()
         screenmanager.transition.duration = .1
-
         self.sm = screenmanager
+        self.screen_names = {'music': 'Music', 'phonebook': 'Phone', 'homescreen': 'Home'}
+        self.on_connected_change('','')
+        return view
 
-        #self.on_connected_change('','')
-
-        return screenmanager
+    def on_screen_switch(self, instance):
+        if instance == self.controlbar.ids.phone:
+            self.set_active_screen('phonebook')
+        if instance == self.controlbar.ids.home:
+            self.set_active_screen('homescreen')
+        if instance == self.controlbar.ids.music:
+            self.set_active_screen('music')
 
     def set_active_screen(self, screen):
+        self.statusbar.set_title(self.screen_names[screen])
         self.sm.current = screen
 
     def on_call_status_change(self, instance, value):

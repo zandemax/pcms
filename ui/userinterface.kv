@@ -1,5 +1,21 @@
 #:kivy 1.0.9
 
+<BaseView>:
+    ScreenManager:
+        #pos_hint: {'center_x': 0.5, 'top': 0}
+        #size_hint: 1, 1
+        id: screenmanager
+
+    StatusBar:
+        pos_hint: {'center_x': 0.5, 'top': 1}
+        size_hint: 1, 0.08
+        id: statusbar
+
+    ControlBar:
+        pos_hint: {'center_x': 0.5, 'top': 0.12}
+        size_hint: 1, 0.12
+        id: controlbar
+
 <TelephonyIncoming>:
 
     canvas.before:
@@ -121,15 +137,15 @@
             pos: self.pos[0]+90, self.pos[1]+100
             size: self.width-180, 112
 
-    StatusBar:
-        pos_hint: {'center_x': 0.5, 'top': 1}
-        size_hint: 1, 0.08
-        id: statusbar
+#    StatusBar:
+#        pos_hint: {'center_x': 0.5, 'top': 1}
+#        size_hint: 1, 0.08
+#        id: statusbar
 
-    ControlBar:
-        pos_hint: {'center_x': 0.5, 'top': 0.12}
-        size_hint: 1, 0.12
-        id: controlbar
+#    ControlBar:
+#        pos_hint: {'center_x': 0.5, 'top': 0.12}
+#        size_hint: 1, 0.12
+#        id: controlbar
 
     Label:
         font_size: 40
@@ -210,14 +226,14 @@
             pos: self.pos
             size: self.size
 
-    StatusBar:
-        pos_hint: {'center_x': 0.5, 'top': 1}
-        size_hint: 1, 0.08
-
-    ControlBar:
-        pos_hint: {'center_x': 0.5, 'top': 0.12}
-        size_hint: 1, 0.12
-        id: controlbar
+#    StatusBar:
+#        pos_hint: {'center_x': 0.5, 'top': 1}
+#        size_hint: 1, 0.08
+#
+#    ControlBar:
+#        pos_hint: {'center_x': 0.5, 'top': 0.12}
+#        size_hint: 1, 0.12
+#        id: controlbar
 
     Label:
         font_size: 40
@@ -346,15 +362,15 @@
             pos: self.pos
             size: self.size
 
-    ControlBar:
-        pos_hint: {'center_x': 0.5, 'top': 0.12}
-        size_hint: 1, 0.12
-        id: controlbar
+#    ControlBar:
+#        pos_hint: {'center_x': 0.5, 'top': 0.12}
+#        size_hint: 1, 0.12
+#        id: controlbar
 
-    StatusBarGrey:
-        pos_hint: {'center_x': 0.5, 'top': 1}
-        size_hint: 1, 0.08
-        id: statusbar
+#    StatusBarGrey:
+#        pos_hint: {'center_x': 0.5, 'top': 1}
+#        size_hint: 1, 0.08
+#        id: statusbar
 
     Label:
         font_size: 60
