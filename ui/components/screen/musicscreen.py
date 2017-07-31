@@ -3,7 +3,8 @@ from kivy.clock import Clock
 from math import floor
 from kivy.logger import Logger
 
-class MusicPlayer(Screen):
+
+class MusicScreen(Screen):
 
     def __init__(self, name, a2dp, app):
         super().__init__(name=name)
@@ -19,16 +20,20 @@ class MusicPlayer(Screen):
         self.fetch_current_data()
         Clock.schedule_interval(self.progress_callback, 0.05)
 
-
     def on_title_change(self, instance, value):
         Logger.info('Music: Title changed')
-        self.ids.title.text = self.a2dp.title
+        if len(self.a2dp.title) <= 40:
+            self.ids.title.text = self.a2dp.title
+        else:
+            self.ids.title.text = self.a2dp.title[:36]+'...'
 
     def on_artist_change(self, instance, value):
         self.ids.artist.text = self.a2dp.artist
 
     def on_duration_change(self, instance, value):
-        self.ids.duration.text = str(floor(self.a2dp.duration/(1000*60))%60)+':'+str(floor(self.a2dp.duration/1000)%60).zfill(2)
+        self.ids.duration.text = str(floor(
+            self.a2dp.duration/(1000*60)) % 60)+':'+str(floor(
+                self.a2dp.duration/1000) % 60).zfill(2)
 
     def fetch_current_data(self):
         self.on_duration_change('', '')
@@ -36,7 +41,7 @@ class MusicPlayer(Screen):
         self.on_title_change('', '')
 
     def on_connected_change(self, instance, value):
-        if value == False:
+        if value is False:
             self.ids.artist.text = 'No Device'
             self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_play_circle.png'
 
