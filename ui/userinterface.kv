@@ -597,3 +597,16 @@
             height: self.minimum_height
             orientation: 'vertical'
             spacing: dp(10)
+
+
+<ContactViewItem>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    value: ''
+    Label:
+        text: root.value
+        color: 0,0,0,1

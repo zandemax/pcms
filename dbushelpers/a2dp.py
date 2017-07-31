@@ -1,6 +1,5 @@
-import pydbus
 from kivy.event import EventDispatcher
-from kivy.properties import *
+from kivy.properties import BooleanProperty, StringProperty, NumericProperty
 from kivy.logger import Logger
 
 
@@ -24,34 +23,44 @@ class A2DPManager(EventDispatcher):
     def on_interfaces_changed(self, instance, value):
         if 'org.bluez.MediaPlayer1' in value:
             path = value['org.bluez.MediaPlayer1']
-            self.player = self.bluetooth.bus.get('org.bluez', path)
-            self.player.PropertiesChanged.connect(self.on_property_changed)
-            self.get_properties()
-            self.connected = True
+            try:
+                self.player = self.bluetooth.bus.get('org.bluez', path)
+                self.player.PropertiesChanged.connect(self.on_property_changed)
+                self.get_properties()
+                self.connected = True
+            except KeyError:
+                Logger.error('A2DP: Could not get player object')
         else:
             self.connected = False
 
     def get_properties(self):
         message = self.player.GetAll('org.bluez.MediaPlayer1')
-        track = message['Track']
-        self.title = track['Title']
-        self.artist = track['Artist']
-        self.duration = track['Duration']
-        self.status = message['Status']
-        self.current_pos = message['Position']
+        try:
+            track = message['Track']
+            self.title = track['Title']
+            self.artist = track['Artist']
+            self.duration = track['Duration']
+            self.status = message['Status']
+            self.current_pos = message['Position']
+        except KeyError:
+            pass  # Couldn't get some properties
 
     def on_property_changed(self, property, message, c):
-        if 'Track' in message:
-            track = message['Track']
-            labels = {'title':track['Title'], 'artist':track['Artist'], 'duration':track['Duration']}
-            self.title = labels['title']
-            self.artist = labels['artist']
-            self.duration = labels['duration']
-        elif 'Status' in message:
-            self.status = message['Status']
-            print(self.status)
-        elif 'Position' in message:
-            self.current_pos = message['Position']
+        try:
+            if 'Track' in message:
+                track = message['Track']
+                labels = {'title': track['Title'], 'artist': track['Artist'],
+                          'duration': track['Duration']}
+                self.title = labels['title']
+                self.artist = labels['artist']
+                self.duration = labels['duration']
+            elif 'Status' in message:
+                self.status = message['Status']
+                print(self.status)
+            elif 'Position' in message:
+                self.current_pos = message['Position']
+        except KeyError:
+            pass
 
     def set_gui(self, gui):
         self.gui = gui

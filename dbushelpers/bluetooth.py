@@ -1,5 +1,5 @@
 from kivy.event import EventDispatcher
-from kivy.properties import *
+from kivy.properties import DictProperty
 from kivy.logger import Logger
 import pydbus
 
@@ -17,9 +17,7 @@ class BluetoothManager(EventDispatcher):
         self.bluez.InterfacesAdded.connect(self.on_interfaces_added)
         self.bluez.InterfacesRemoved.connect(self.on_interfaces_removed)
         self.get_interfaces()
-        #print(self.interfaces)
         self.get_modems()
-        #print(self.modems)
 
     def get_interfaces(self):
         objects = self.bluez.GetManagedObjects()
@@ -32,19 +30,22 @@ class BluetoothManager(EventDispatcher):
         modems = self.ofono.GetModems()
         for modem in modems:
             self.modems[modem[0]] = modem[1]
+            modem_obj = self.bus.get('org.ofono', modem[0])
+            modem_obj.PropertyChanged.connect(self.on_property_changed)
 
-    #TODO: Implement on_property_changed for modems
+    def on_property_changed(self, property, value):
+        for modem in self.modems:
+            modem_obj = self.bus.get('org.ofono', modem)
+            self.modems[modem] = modem_obj.GetProperties()
 
     def get_device_serial(self):
         for modem in self.modems:
-            if self.modems[modem]['Online'] == True:
+            if self.modems[modem]['Online'] is True:
                 modem = self.bus.get('org.ofono', modem)
                 properties = modem.GetProperties()
                 return properties['Serial']
 
     def on_interfaces_added(self, object, properties):
-        #print(properties)
-        #print(object)
         for i in properties:
             if 'org.bluez' in i:
                 interface = i
