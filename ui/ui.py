@@ -50,7 +50,7 @@ class UserInterface(App):
                              'contactscreen': 'Phone',
                              'homescreen': 'Home',
                              'phonescreen': 'Call'}
-        self.on_connected_change('', '')
+        self.on_connected_change(self, self.a2dp.connected)
         self.previous_screen = 'homescreen'
         return view
 
@@ -75,7 +75,7 @@ class UserInterface(App):
         else: self.set_active_screen(self.previous_screen)
 
     def on_connected_change(self, instance, value):
-        if self.a2dp.connected:
+        if value is True:
             self.set_active_screen('musicscreen')
         else:
             self.set_active_screen('homescreen')
