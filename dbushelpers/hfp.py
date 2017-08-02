@@ -1,6 +1,6 @@
 from kivy.event import EventDispatcher
 from kivy.properties import (StringProperty, NumericProperty,
-                             ObjectProperty, BooleanProperty)
+                             ListProperty, BooleanProperty, ObjectProperty)
 from kivy.logger import Logger
 
 
@@ -10,9 +10,8 @@ class HFPManager(EventDispatcher):
     status = StringProperty()
     carrier = StringProperty()
     network_strength = NumericProperty()
-    active_call = ObjectProperty()
-    held_call = ObjectProperty()
-    pending_call = ObjectProperty()
+    calls = ListProperty()
+    attention = ListProperty()
 
     def __init__(self, bluetooth):
         Logger.info('Telephony: Loading telephony-module ...')
@@ -57,15 +56,17 @@ class HFPManager(EventDispatcher):
         elif sender == 'Strength':
             self.network_strength = message
 
-    def accept_call(self):
-        self.active_call['call'].Accept()
+    def accept_call(self, call):
+        call.Accept()
 
-    def on_call_added(self, sender, message):
-        self.active_call = {'call': self.bus.get(
-            'org.ofono', sender), 'properties': message}
-        self.active_call['call'].PropertyChanged.connect(
-            self.on_property_changed)
-        self.status = message['State']
+    def on_call_added(self, path, properties):
+        call = Call(path, self.bluetooth, properties, self)
+        self.calls.append(call)
+
+    def on_call_removed(self, path, properties):
+        for call in self.calls:
+            if call.path == path:
+                self.calls.pop(call)
 
     def get_properties(self):
         properties = self.modem[
@@ -76,3 +77,25 @@ class HFPManager(EventDispatcher):
             self.network_strength = properties['Strength']
         except KeyError:
             pass
+
+
+class Call(EventDispatcher):
+
+    status = StringProperty()
+    line_id = StringProperty()
+
+    def __init__(self, path, bluetooth, properties, hfp):
+        self.path = path
+        self.hfp = hfp
+        self.object = bluetooth.bus.get('org.ofono', path)
+        self.object.PropertyChanged.connect(self.on_property_changed)
+        self.status = properties['State']
+        print(self.status)
+
+    def on_property_changed(self, property, value):
+        print(property)
+        print(value)
+        if property == 'State':
+            self.state = value
+            if self.state != 'held' or 'disconnected':
+                self.hfp.attention = [self, self.state]

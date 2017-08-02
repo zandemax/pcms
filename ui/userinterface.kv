@@ -16,7 +16,13 @@
         size_hint: 1, 0.12
         id: controlbar
 
-<TelephonyIncoming>:
+<PhoneScreen>:
+    ScreenManager:
+        #pos_hint: {'center_x': 0.5, 'top': 0}
+        #size_hint: 1, 1
+        id: screenmanager
+
+<CallScreenIncoming>:
 
     canvas.before:
         Color:
@@ -44,15 +50,15 @@
     Button:
         pos_hint: {'center_x': 0.25, 'top': 0.3}
         size_hint: None, None
-        background_normal: '../../kivy_img/accept.png'
+        background_normal: '/home/zandemax/coding/pcms/img/icon_phone.png'
 
     Button:
         pos_hint: {'center_x': 0.75, 'top': 0.3}
         size_hint: None, None
-        background_normal: '../../kivy_img/deny.png'
+        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
 
 
-<TelephonyDialling>:
+<CallScreenDialling>:
 
 
     canvas.before:
@@ -86,7 +92,7 @@
         background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
 
 
-<TelephonyActive>:
+<CallScreenActive>:
 
 
     canvas.before:
@@ -116,7 +122,7 @@
     Button:
         pos_hint: {'center_x': 0.5, 'top': 0.3}
         size_hint: None, None
-        background_normal: '../../kivy_img/deny.png'
+        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
 
 
 <MusicScreen>
@@ -538,7 +544,7 @@
         pos: self.parent.pos[0]+(self.parent.width/6),self.parent.pos[1]+self.parent.height*0.2
         height: self.parent.height*0.6
         color: .7, .7, .7, 1
-        source: '/home/zandemax/coding/pcms/img/icon_phone.png'
+        source: '/home/zandemax/coding/pcms/img/icon_phone_white.png'
         id: phone
 
 #    Button:

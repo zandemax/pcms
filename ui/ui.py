@@ -5,7 +5,7 @@ from dbushelpers import (A2DPManager, HFPManager,
                          PhonebookManager, BluetoothManager)
 from ui.components import BaseView
 from ui.components.screen import (MusicScreen, HomeScreen,
-                                  ContactScreen)#, PhoneScreen)
+                                  ContactScreen, PhoneScreen)
 from kivy.logger import Logger
 
 
@@ -19,7 +19,8 @@ class UserInterface(App):
         self.a2dp = A2DPManager(self.bluetooth)
         self.pbap = PhonebookManager(self.bluetooth, self.hfp)
         self.a2dp.bind(connected=self.on_connected_change)
-        self.hfp.bind(status=self.on_call_status_change)
+        #self.hfp.bind(status=self.on_call_status_change)
+        self.hfp.bind(attention=self.on_hfp_attention_change)
 
         view = BaseView()
 
@@ -39,16 +40,18 @@ class UserInterface(App):
                                                pbap=self.pbap))
         screenmanager.add_widget(HomeScreen(name='homescreen',
                                             app=self))
-#        screenmanager.add_widget(PhoneScreen(name='phonescreen',
-#                                            app=self))
+        screenmanager.add_widget(PhoneScreen(name='phonescreen',
+                                             hfp=self.hfp))
         screenmanager.current = 'homescreen'
         screenmanager.transition = CardTransition()
         screenmanager.transition.duration = .1
         self.sm = screenmanager
         self.screen_names = {'musicscreen': 'Music',
                              'contactscreen': 'Phone',
-                             'homescreen': 'Home'}
+                             'homescreen': 'Home',
+                             'phonescreen': 'Call'}
         self.on_connected_change('', '')
+        self.previous_screen = 'homescreen'
         return view
 
     def on_screen_switch(self, instance):
@@ -64,17 +67,12 @@ class UserInterface(App):
         self.controlbar.set_active_icon(screen)
         self.sm.current = screen
 
-    def on_call_status_change(self, instance, value):
-        Logger.info('App: Call Status callback is ' + value
-                    + " (" + self.hfp.status+")")
-        if value == "incoming":
-            self.set_active_screen('telephony_incoming')
-        if value == "active":
-            self.set_active_screen('telephony_active')
-        if value == "dialing":
-            self.set_active_screen('telephony_dialling')
-        if value == "disconnected":
-            self.set_active_screen('musicscreen')
+    def on_hfp_attention_change(self, instance, value):
+        if value is not None:
+            if self.sm.current != 'phonescreen':
+                self.previous_screen = self.sm.current
+            self.set_active_screen('phonescreen')
+        else: self.set_active_screen(self.previous_screen)
 
     def on_connected_change(self, instance, value):
         if self.a2dp.connected:

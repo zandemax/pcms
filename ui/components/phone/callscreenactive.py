@@ -1,14 +1,15 @@
-from kivy.uix.screenmanager import Screen
+from ui.components.phone.callscreen import CallScreen
 from kivy.clock import Clock
 from math import floor
 
-class TelephonyActive(Screen):
 
-    def __init__(self, name, telman):
-        super().__init__(name=name)
-        self.telman = telman
-        telman.bind(active_call=self.on_call_change)
-        telman.bind(status=self.on_status_change)
+class CallScreenActive(CallScreen):
+
+    def __init__(self, name, hfp):
+        super().__init__(name, hfp)
+        self.hfp = hfp
+        #hfp.bind(active_call=self.on_call_change)
+        #hfp.bind(status=self.on_status_change)
         self.clockstop = True
         self.calltime = 0
 
