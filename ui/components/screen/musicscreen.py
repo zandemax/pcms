@@ -18,6 +18,7 @@ class MusicScreen(Screen):
         self.ids.prev.bind(on_press=self.on_previous)
         self.ids.play.bind(on_press=self.on_play)
         self.fetch_current_data()
+        self.on_connected_change(self, self.a2dp.connected)
         Clock.schedule_interval(self.progress_callback, 0.05)
 
     def on_title_change(self, instance, value):
@@ -42,8 +43,9 @@ class MusicScreen(Screen):
 
     def on_connected_change(self, instance, value):
         if value is False:
+            self.ids.title.text = 'No Device'
             self.ids.artist.text = 'No Device'
-            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_play_circle.png'
+            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_play_circle_o.png'
 
     def on_next(self, instance):
         print('next pressed')
@@ -56,10 +58,10 @@ class MusicScreen(Screen):
         Logger.info('Music: Play pressed')
         if self.a2dp.status == 'paused':
             self.a2dp.play()
-            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_pause_circle.png'
+            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_pause_circle_o.png'
         else:
             self.a2dp.pause()
-            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_play_circle.png'
+            self.ids.play.source = '/home/zandemax/coding/pcms/img/icon_play_circle_o.png'
 
 
     def progress_callback(self, dt):
