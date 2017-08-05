@@ -574,20 +574,20 @@
         Rectangle:
             size: self.size
             pos: self.pos
-    rv: rv
-    orientation: 'vertical'
-    RecycleView:
-        id: rv
-        scroll_type: ['bars', 'content']
-        scroll_wheel_distance: dp(114)
-        bar_width: dp(10)
-        RecycleBoxLayout:
-            default_size: None, dp(56)
-            default_size_hint: 0.8, None
-            size_hint_y: None
-            height: self.minimum_height
-            orientation: 'vertical'
-            spacing: dp(10)
+    ContactView:
+        id: contactview
+        pos: self.parent.pos
+        size_hint: 1, 1
+
+<ContactView>:
+    viewclass: 'ContactViewItem'
+    RecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 0.8, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        padding: [0,10,0,0]
 
 
 <ContactViewItem>:
@@ -598,6 +598,16 @@
             size: self.size
             pos: self.pos
     value: ''
+#    Label:
+#        font_size: 15
+#        pos_hint: {'center_x': 0.5, 'top': 0.2}
+#        size_hint: None, None
+#        text: root.value
+#        color: 0,0,0,1
+
     Label:
-        text: root.value
+#        font_size: 10
+#        pos_hint: {'center_x': 0.5, 'top': 1}
+#        size_hint: None, None
+        text: root.number
         color: 0,0,0,1

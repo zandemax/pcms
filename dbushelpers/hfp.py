@@ -14,7 +14,7 @@ class HFPManager(EventDispatcher):
     attention = ListProperty()
 
     def __init__(self, bluetooth):
-        Logger.info('Telephony: Loading telephony-module ...')
+        Logger.info('HFP: Loading hfp-module')
         bluetooth.bind(modems=self.on_modems_change)
         self.bluetooth = bluetooth
         self.on_modems_change(self, bluetooth.modems)
@@ -37,7 +37,7 @@ class HFPManager(EventDispatcher):
     def call(self, number):
         self.modem.Dial(number, '')
         self.status = "dialling"
-        Logger.info('Telephony: Call initialised')
+        Logger.info('HFP: Call initialised')
 
     def end_call(self, call):
         call.Hangup()
@@ -62,11 +62,13 @@ class HFPManager(EventDispatcher):
     def on_call_added(self, path, properties):
         call = Call(path, self.bluetooth, properties, self)
         self.calls.append(call)
+        Logger.info('HFP: Call created')
 
     def on_call_removed(self, path, properties):
         for call in self.calls:
             if call.path == path:
                 self.calls.pop(call)
+        Logger.info('HFP: Call destroyed')
 
     def get_properties(self):
         properties = self.modem[
@@ -90,12 +92,15 @@ class Call(EventDispatcher):
         self.object = bluetooth.bus.get('org.ofono', path)
         self.object.PropertyChanged.connect(self.on_property_changed)
         self.status = properties['State']
-        print(self.status)
+        self.on_property_changed('State', self.status)
 
     def on_property_changed(self, property, value):
-        print(property)
-        print(value)
+        Logger.info('Call: '+property+' changed to '+value)
         if property == 'State':
             self.state = value
-            if self.state != 'held' or 'disconnected':
+            if (self.state != 'held' or self.state != 'disconnected'):
                 self.hfp.attention = [self, self.state]
+                Logger.info('Call: Attention aquired')
+            if (self.state == 'held' or self.state == 'disconnected'):
+                self.hfp.attention = [None, None]
+                Logger.info('Call: Attention realeased')

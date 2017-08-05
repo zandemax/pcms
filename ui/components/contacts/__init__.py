@@ -1,3 +1,3 @@
-__all__ = ['ContactScreen']
+__all__ = ['ContactView']
 
-from ui.components.phone.contacts.contactscreen import ContactScreen
+from ui.components.contacts.contactview import ContactView

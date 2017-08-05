@@ -56,10 +56,16 @@ class UserInterface(App):
 
     def on_screen_switch(self, instance):
         if instance == self.controlbar.ids.phone:
+            self.sm.transition.direction = 'right'
             self.set_active_screen('contactscreen')
         if instance == self.controlbar.ids.home:
+            if self.sm.transition.direction == 'right':
+                self.sm.transition.direction = 'left'
+            else:
+                self.sm.transition.direction = 'right'
             self.set_active_screen('homescreen')
         if instance == self.controlbar.ids.music:
+            self.sm.transition.direction = 'left'
             self.set_active_screen('musicscreen')
 
     def set_active_screen(self, screen):
@@ -68,7 +74,7 @@ class UserInterface(App):
         self.sm.current = screen
 
     def on_hfp_attention_change(self, instance, value):
-        if value is not None:
+        if value[0] is not None:
             if self.sm.current != 'phonescreen':
                 self.previous_screen = self.sm.current
             self.set_active_screen('phonescreen')

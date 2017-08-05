@@ -1,5 +1,6 @@
 from kivy.event import EventDispatcher
 from kivy.properties import BooleanProperty
+from kivy.logger import Logger
 from gi.repository import GLib
 import pydbus
 import vobject
@@ -17,6 +18,7 @@ class PhonebookManager(EventDispatcher):
         self.phonebook = []
         self.callhistory = []
         hfp.bind(connected=self.on_connected_change)
+        self.on_connected_change(self, hfp.connected)
 #        self.get_phonebook()
 
     def on_connected_change(self, instance, value):
@@ -24,7 +26,7 @@ class PhonebookManager(EventDispatcher):
             self.get_phonebook()
 
     def connect(self):
-        print('connecting')
+        Logger.info('PBAP: Connecting')
         print(self.bluetooth.get_device_serial())
         session_path = self.obex.CreateSession(
             self.bluetooth.get_device_serial(),
@@ -33,7 +35,7 @@ class PhonebookManager(EventDispatcher):
         return session
 
     def get_phonebook(self):
-        print('loading pb')
+        Logger.info('PBAP: Loading phonebook')
         session = self.connect()
         session.Select('int', 'pb')
         transfer_path, transfer_args = session.PullAll('', {"Format": GLib.Variant('s', 'vcard30')})
@@ -44,7 +46,7 @@ class PhonebookManager(EventDispatcher):
         print(self.pb_filename)
 
     def get_calllist(self):
-        print('loading calls')
+        Logger.info('PBAP: Loading calls')
         session = self.connect()
         session.Select('int', 'cch')
         transfer_path, transfer_args = session.PullAll('', {"Format": GLib.Variant('s', 'vcard30')})
@@ -71,7 +73,7 @@ class PhonebookManager(EventDispatcher):
             pass
 
     def read_vcard_file(self, filename, list):
-        print('loading cards')
+        Logger.info('PBAP: Loading cards')
         cards_file = open(filename, 'r')
         vcard = ''
         for line in cards_file:
