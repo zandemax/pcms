@@ -5,24 +5,21 @@ from math import floor
 
 class CallScreenActive(CallScreen):
 
-    def __init__(self, name, hfp):
+    def __init__(self, name, hfp, pbap):
         super().__init__(name, hfp)
-        self.hfp = hfp
-        #hfp.bind(active_call=self.on_call_change)
-        #hfp.bind(status=self.on_status_change)
-        self.clockstop = True
+        self.clockstop = False
         self.calltime = 0
+        self.hfp = hfp
+        self.pbap = pbap
+        Clock.schedule_interval(self.on_tick, 1)
+        hfp.bind(attention=self.on_call_change)
 
     def on_call_change(self, instance, value):
-        self.ids.number.text = value['properties']['LineIdentification']
-
-    def on_status_change(self, instance, value):
-        if value == 'active':
-            self.clockstop = False
-            self.calltime = 0
-            Clock.schedule_interval(self.on_tick, 1)
-        else:
-            self.clockstop = True
+        if value[0] is not None:
+            try:
+                self.ids.number.text = self.pbap.phonebook_search(value[0].line_id)
+            except KeyError:
+                self.ids.number.text = value[0].line_id
 
     def on_tick(self, dt):
         self.calltime = self.calltime+1

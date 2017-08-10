@@ -92,6 +92,7 @@ class Call(EventDispatcher):
         self.object = bluetooth.bus.get('org.ofono', path)
         self.object.PropertyChanged.connect(self.on_property_changed)
         self.status = properties['State']
+        self.line_id = properties['LineIdentification']
         self.on_property_changed('State', self.status)
 
     def on_property_changed(self, property, value):

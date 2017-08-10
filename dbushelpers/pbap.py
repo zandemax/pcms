@@ -92,3 +92,6 @@ class PhonebookManager(EventDispatcher):
                     list.append(vcard_obj)
         except (AttributeError, KeyError):
             pass  # Contact has no Group membership, continue
+
+    def phonebook_search(self, number):
+        raise KeyError
