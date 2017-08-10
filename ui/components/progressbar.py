@@ -1,4 +1,5 @@
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.properties import NumericProperty
 
 
 kv = '''
@@ -6,19 +7,25 @@ kv = '''
 <ProgressBarColor>
     canvas.before:
         Color:
-            rgb: 1, 1, 1
-        Circle:
-            pos: 100, 100
-            size: 10, 10
-            source: 'data/logo/kivy-icon-512.png'
-            angle_start: e1.value
-            angle_end: e2.value
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: .5 , 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            height: self.height
+            width: root.bar_width
+'''
+
 
 class ProgressBarColor(RelativeLayout):
 
     value = NumericProperty()
+    bar_width = NumericProperty()
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.value = 0
         self.bind(value=self.on_value_change)
 
@@ -27,4 +34,4 @@ class ProgressBarColor(RelativeLayout):
             value = 1
         elif value < 0:
             value = 0
-        self.ids.elapsed.width = self.width / value
+        self.bar_width = self.width / value
