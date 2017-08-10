@@ -1,3 +1,4 @@
-__all__ = ['ContactView']
+__all__ = ['ContactViewItem']
 
-from ui.components.contacts.contactview import ContactView
+from ui.components.contacts.contactview import ContactViewItem
+from ui.components.contacts.contactview import ContactViewDummy

@@ -5,7 +5,7 @@ from dbushelpers import (A2DPManager, HFPManager,
                          PhonebookManager, BluetoothManager)
 from ui.components import BaseView
 from ui.components.screen import (MusicScreen, HomeScreen,
-                                  ContactScreen, PhoneScreen)
+                                  ContactScreen, PhoneScreen, SettingsScreen)
 from kivy.logger import Logger
 
 
@@ -31,26 +31,29 @@ class UserInterface(App):
         self.controlbar.ids.phone.bind(on_press=self.on_screen_switch)
         self.controlbar.ids.home.bind(on_press=self.on_screen_switch)
         self.controlbar.ids.music.bind(on_press=self.on_screen_switch)
+        self.controlbar.ids.settings.bind(on_press=self.on_screen_switch)
 
         screenmanager = view.ids.screenmanager
         screenmanager.add_widget(MusicScreen(name='musicscreen',
                                              a2dp=self.a2dp,
                                              app=self))
         screenmanager.add_widget(ContactScreen(name='contactscreen',
-                                               pbap=self.pbap))
+                                               pbap=self.pbap, hfp=self.hfp))
         screenmanager.add_widget(HomeScreen(name='homescreen',
                                             app=self))
         screenmanager.add_widget(PhoneScreen(name='phonescreen',
                                              hfp=self.hfp))
-        screenmanager.current = 'homescreen'
+        screenmanager.add_widget(SettingsScreen(name='settingsscreen'))
+        screenmanager.current = 'settingsscreen'
         screenmanager.transition = CardTransition()
         screenmanager.transition.duration = .1
         self.sm = screenmanager
         self.screen_names = {'musicscreen': 'Music',
                              'contactscreen': 'Phone',
                              'homescreen': 'Home',
-                             'phonescreen': 'Call'}
-        self.on_connected_change(self, self.a2dp.connected)
+                             'phonescreen': 'Call',
+                             'settingsscreen': 'Settings'}
+#        self.on_connected_change(self, self.a2dp.connected)
         self.previous_screen = 'homescreen'
         return view
 
@@ -67,6 +70,9 @@ class UserInterface(App):
         if instance == self.controlbar.ids.music:
             self.sm.transition.direction = 'left'
             self.set_active_screen('musicscreen')
+        if instance == self.controlbar.ids.settings:
+            self.sm.transition.direction = 'left'
+            self.set_active_screen('settingsscreen')
 
     def set_active_screen(self, screen):
         self.statusbar.set_title(self.screen_names[screen])
