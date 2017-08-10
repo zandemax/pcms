@@ -42,7 +42,7 @@ class UserInterface(App):
         screenmanager.add_widget(HomeScreen(name='homescreen',
                                             app=self))
         screenmanager.add_widget(PhoneScreen(name='phonescreen',
-                                             hfp=self.hfp))
+                                             hfp=self.hfp, pbap=self.pbap))
         screenmanager.add_widget(SettingsScreen(name='settingsscreen'))
         screenmanager.current = 'settingsscreen'
         screenmanager.transition = CardTransition()
