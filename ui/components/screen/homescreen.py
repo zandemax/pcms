@@ -14,13 +14,13 @@ class HomeScreen(Screen, EventDispatcher):
         super().__init__(name=name)
         self.app = app
         Clock.schedule_interval(self.on_tick, 1)
-        weatherhelper = WeatherHelper()
-        weather = weatherhelper.get_weather('Munich,DE')
-        self.ids.temperature.text = str("%.1f" % round(weather['temp'],
-                                                       2))+'°C'
-        self.ids.weathertext.text = weather['dstatus']
-        self.iconname = weatherhelper.icons[weather['status']]
-        print(weather['status'])
+#        weatherhelper = WeatherHelper()
+#        weather = weatherhelper.get_weather('Munich,DE')
+#        self.ids.temperature.text = str("%.1f" % round(weather['temp'],
+#                                                       2))+'°C'
+#        self.ids.weathertext.text = weather['dstatus']
+#        self.iconname = weatherhelper.icons[weather['status']]
+#        print(weather['status'])
 
     def on_tick(self, dt):
         self.ids.time.text = time.strftime('%H:%M')
