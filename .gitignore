@@ -130,4 +130,9 @@ include/
 
 .*
 
+dbushelpers/pbap-client
+helpers/weather.py
+ui/components/dialler.py
+ui/components/phone/contactview.py
+
 # End of https://www.gitignore.io/api/linux,python

@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import Screen, FallOutTransition
+from kivy.uix.screenmanager import Screen
 from kivy.event import EventDispatcher
 from kivy.properties import StringProperty
 
@@ -24,19 +24,13 @@ class Dialler(Screen, EventDispatcher):
         self.ids.delete.bind(on_press=self.on_delete)
         self.ids.start.bind(on_press=self.on_start)
 
-        #self.ids.statusbar.set_title('Telephone')
-
-        self.ids.controlbar.ids.music.bind(on_press=self.on_music)
-        self.ids.controlbar.ids.home.bind(on_press=self.on_home)
-        self.ids.controlbar.ids.phone.color = 1,1,1,1
-
         self.bind(number=self.on_number_change)
 
     def on_delete(self, instance):
         self.number = self.number[:-1]
 
     def on_music(self, instance):
-        self.app.set_active_screen('music')
+        self.app.set_active_screen('musicscreen')
 
     def on_home(self, instance):
         self.app.set_active_screen('homescreen')

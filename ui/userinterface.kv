@@ -16,11 +16,18 @@
         size_hint: 1, 0.12
         id: controlbar
 
-<TelephonyIncoming>:
+<PhoneScreen>:
+    ScreenManager:
+        #pos_hint: {'center_x': 0.5, 'top': 0}
+        #size_hint: 1, 1
+        id: screenmanager
+
+
+<CallScreenIncoming>:
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -28,36 +35,39 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
-        text: "+49 172 1471643"
+        color: 0.9, 0.9, 0.9, 0.7
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "incoming call"
 
-    Button:
-        pos_hint: {'center_x': 0.25, 'top': 0.3}
+    ImageButton:
+        pos_hint: {'center_x': 0.25, 'top': 0.4}
+        height: 70
         size_hint: None, None
-        background_normal: '../../kivy_img/accept.png'
+        source: '/home/zandemax/coding/pcms/img/icon_phone.png'
+        id: accept
 
-    Button:
-        pos_hint: {'center_x': 0.75, 'top': 0.3}
+    ImageButton:
+        pos_hint: {'center_x': 0.75, 'top': 0.4}
+        height: 70
         size_hint: None, None
-        background_normal: '../../kivy_img/deny.png'
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: decline
 
 
-<TelephonyDialling>:
+<CallScreenDialling>:
 
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -65,33 +75,34 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.7
         text: "+49 172 1471643"
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "dialling"
         id: dialling
 
-    Button:
+    ImageButton:
         pos_hint: {'center_x': 0.5, 'top': 0.3}
         size_hint: None, None
-        color: 1,0,0,1
-        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: end
 
 
-<TelephonyActive>:
+<CallScreenActive>:
 
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -99,39 +110,39 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.7
         text: "+49 172 1471643"
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "00:00"
         id: elapsed
 
-    Button:
+    ImageButton:
         pos_hint: {'center_x': 0.5, 'top': 0.3}
         size_hint: None, None
-        background_normal: '../../kivy_img/deny.png'
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: end
 
 
-<MusicPlayer>
+<MusicScreen>
 
     canvas.before:
-        #Color:
-        #    rgba: 1, 1, 1, 1
-            #rgba: 128/256, 214/256, 255/265, 1
+        Color:
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
             size: self.size
-            source: 'img/background_minimal.jpg'
         Color:
-            rgba: 1, 1, 1, .3
+            rgba: 1, 1, 1, .1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos[0]+90, self.pos[1]+100
@@ -147,9 +158,16 @@
 #        size_hint: 1, 0.12
 #        id: controlbar
 
+#    AsyncImage:
+#        pos_hint: {'center_x': 0.5, 'top': 0.8}
+#        size_hint: None, None
+#        height: 300
+#        width: 300
+#        id: image
+
     Label:
         font_size: 40
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.8
         pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
         text: "Song"
@@ -158,7 +176,7 @@
 
     Label:
         font_size: 30
-        color: 0.3, 0.3, 0.3, 0.7
+        color: 0.6, 0.6, 0.6, 0.7
         pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
         text: "Artist"
@@ -176,7 +194,7 @@
         pos_hint: {'center_x': 0.75, 'top': 0.39}
         size_hint: None, None
         height: 60
-        source: '/home/zandemax/coding/pcms/img/icon_skip_next.png'
+        source: '/home/zandemax/coding/pcms/img/icon_skip_next_b.png'
         #on_press: self.parent.on_next
         color: 1, 1, 1, 0.8
         id: next
@@ -185,11 +203,12 @@
         pos_hint: {'center_x': 0.5, 'top': 0.42}
         size_hint: None, None
         height: 90
-        source: '/home/zandemax/coding/pcms/img/icon_pause_circle.png'
+        source: '/home/zandemax/coding/pcms/img/icon_pause_circle_o.png'
         #on_press: self.parent.on_next
         mipmap: True
         color: 1, 1, 1, 0.8
         id: play
+
 
     ProgressBar:
         #pos_hint: {'center_x': 0.5, 'top': 0.3}
@@ -356,7 +375,7 @@
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -374,7 +393,7 @@
 
     Label:
         font_size: 60
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.8
         pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
         bold: True
@@ -383,7 +402,7 @@
 
     Label:
         font_size: 40
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.6, 0.6, 0.6, 0.7
         pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
         text: "Mon, 10 Juli 2017"
@@ -393,10 +412,10 @@
     Label:
         font_size: 80
         color: 49/256, 95/256, 118/256, 1
-        pos_hint: {'center_x': 0.55, 'top': 0.4}
+        pos_hint: {'center_x': 0.62, 'top': 0.4}
         size_hint: None, None
         markup: True
-        text: "%s"%(icon('wi-day-cloudy'))
+        text: "%s"%(icon(self.parent.iconname))
 
     Label:
         font_size: 35
@@ -404,7 +423,7 @@
         pos_hint: {'center_x': 0.43, 'top': 0.35}
         size_hint: None, None
         markup: True
-        text: "12°C"
+        id: temperature
 
     Label:
         font_size: 40
@@ -412,7 +431,7 @@
         pos_hint: {'center_x': 0.38, 'top': 0.43}
         size_hint: None, None
         markup: True
-        text: "Cloudy"
+        id: weathertext
 
     # #: import icon kivy.garden.iconfonts.icon
     # Label:
@@ -428,7 +447,7 @@
     canvas.before:
         Color:
             #rgba: 105/256, 163/256, 204/256, 1
-            rgba: 49/256, 95/256, 118/256, 1
+            rgba: 33/256, 33/256, 33/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -522,23 +541,30 @@
 
     canvas.before:
         Color:
-            rgba: 97/256, 97/256, 103/256, .7
+            rgba: 55/256, 55/256, 55/256, 0
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
             size: self.size
         Color:
-            rgba: 189/256, 189/256, 189/256, 1
+            rgba: 70/256, 70/256, 70/256, 0
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos[0], self.pos[1]+self.height
             size: self.width, self.height/80
 
     ImageButton:
-        pos: self.parent.pos[0]+(self.parent.width/6),self.parent.pos[1]+self.parent.height*0.2
+        pos: self.parent.pos[0]+((self.parent.width/6))-(self.width/2), self.parent.pos[1]+self.parent.height*0.2
         height: self.parent.height*0.6
         color: .7, .7, .7, 1
-        source: '/home/zandemax/coding/pcms/img/icon_phone.png'
+        source: '/home/zandemax/coding/pcms/img/icon_messages.png'
+        id: settings
+
+    ImageButton:
+        pos: self.parent.pos[0]+(self.parent.width/6)*2-(self.width/2), self.parent.pos[1]+self.parent.height*0.2
+        height: self.parent.height*0.6
+        color: .7, .7, .7, 1
+        source: '/home/zandemax/coding/pcms/img/icon_phone_white.png'
         id: phone
 
 #    Button:
@@ -550,50 +576,115 @@
 #        id: phone
 
     ImageButton:
-        pos: self.parent.pos[0]+(self.parent.width/6)*2.5,self.parent.pos[1]+self.parent.height*0.2
+        pos: self.parent.pos[0]+((self.parent.width/6)*3)-(self.width/2), self.parent.pos[1]+self.parent.height*0.2
         height: self.parent.height*0.6
         color: .7, .7, .7, 1
         source: '/home/zandemax/coding/pcms/img/icon_home.png'
         id: home
 
     ImageButton:
-        pos: self.parent.pos[0]+(self.parent.width/6)*4,self.parent.pos[1]+self.parent.height*0.2
+        pos: self.parent.pos[0]+((self.parent.width/6)*4)-(self.width/2), self.parent.pos[1]+self.parent.height*0.2
         height: self.parent.height*0.6
         color: .7, .7, .7, 1
         source: '/home/zandemax/coding/pcms/img/icon_music.png'
         id: music
 
-<Row@BoxLayout>:
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    value: ''
-    Label:
-        text: root.value
-        color: 0,0,0,1
+    ImageButton:
+        pos: self.parent.pos[0]+((self.parent.width/6)*5)-(self.width/2), self.parent.pos[1]+self.parent.height*0.2
+        height: self.parent.height*0.6
+        color: .7, .7, .7, 1
+        source: '/home/zandemax/coding/pcms/img/icon_settings.png'
+        id: settings
 
-<Phonebook>
+<ContactScreen>
     canvas:
         Color:
-            rgba: 0.7, 0.7, 0.7, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             size: self.size
             pos: self.pos
-    rv: rv
-    orientation: 'vertical'
-    RecycleView:
-        id: rv
-        scroll_type: ['bars', 'content']
-        scroll_wheel_distance: dp(114)
-        bar_width: dp(10)
-        viewclass: 'Row'
-        RecycleBoxLayout:
-            default_size: None, dp(56)
-            default_size_hint: 0.8, None
-            size_hint_y: None
-            height: self.minimum_height
-            orientation: 'vertical'
-            spacing: dp(10)
+    ScrollView:
+        id: scrollview
+        pos: self.parent.pos
+        size: self.parent.size
+
+<ContactViewItem>:
+#    height: 30
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, .1
+        Rectangle:
+            size: self.size[0]-100,self.size[1]
+            pos: 50, 0
+    Label:
+        font_size: 35
+        pos: (self.parent.width/2)-50, 10
+        size_hint: None, None
+        text: self.parent.name
+        color: .9,.9,.9,1
+
+    Label:
+        font_size: 20
+        pos: (self.parent.width/2)-50, -20
+        size_hint: None, None
+        text: self.parent.number
+        color: .7,.7,.7,1
+
+<ContactViewDummy>:
+#    height: 30
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 0
+        Rectangle:
+            size: self.size[0]-100,self.size[1]
+            pos: 50, 0
+
+<SettingsScreen>:
+#    ScreenManager:
+#        #pos_hint: {'center_x': 0.5, 'top': 0}
+#        #size_hint: 1, 1
+#        id: screenmanager
+#
+#<SettingScreenHome>:
+    canvas.before:
+        Color:
+            rgba: 5/256, 5/256, 5/256, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    ImageButton:
+        pos_hint: {'center_x': 0.25, 'top': 0.55}
+        size_hint: None, None
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_settings_screen.png'
+        id: 3
+
+    ImageButton:
+        pos_hint: {'center_x': 0.5, 'top': 0.55}
+        size_hint: None, None
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_settings_bluetooth.png'
+        id: bluetooth
+
+    ImageButton:
+        pos_hint: {'center_x': 0.75, 'top': 0.55}
+        size_hint: None, None
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_settings_power.png'
+        id: power
+
+<ProgressBar>:
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        BorderImage:
+            border: (12, 12, 12, 12)
+            pos: self.x, self.center_y - 12
+            size: self.width, 24
+            source: 'atlas://data/images/defaulttheme/progressbar_background'
+        BorderImage:
+            border: [int(min(self.width * (self.value / float(self.max)) if self.max else 0, 12))] * 4
+            pos: self.x, self.center_y - 12
+            size: self.width * (self.value / float(self.max)) if self.max else 0, 24
+            source: 'atlas://data/images/defaulttheme/progressbar'
