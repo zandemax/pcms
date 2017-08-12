@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import CardTransition
 from kivy.support import install_gobject_iteration
 from dbushelpers import (A2DPManager, HFPManager,
                          PhonebookManager, BluetoothManager)
+from canhelpers.canbus import CANBus
 from ui.components import BaseView
 from ui.components.screen import (MusicScreen, HomeScreen,
                                   ContactScreen, PhoneScreen, SettingsScreen)
@@ -18,6 +19,7 @@ class UserInterface(App):
         self.hfp = HFPManager(self.bluetooth)
         self.a2dp = A2DPManager(self.bluetooth)
         self.pbap = PhonebookManager(self.bluetooth, self.hfp)
+        self.canbus = CANBus(self)
         self.a2dp.bind(connected=self.on_connected_change)
         #self.hfp.bind(status=self.on_call_status_change)
         self.hfp.bind(attention=self.on_hfp_attention_change)
@@ -91,3 +93,6 @@ class UserInterface(App):
             self.set_active_screen('musicscreen')
         else:
             self.set_active_screen('homescreen')
+
+    def on_stop(self):
+        self.canbus.on_stop()
