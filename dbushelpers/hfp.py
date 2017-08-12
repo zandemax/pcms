@@ -1,6 +1,6 @@
 from kivy.event import EventDispatcher
 from kivy.properties import (StringProperty, NumericProperty,
-                             ListProperty, BooleanProperty, ObjectProperty)
+                             ListProperty, BooleanProperty)
 from kivy.logger import Logger
 
 
@@ -36,11 +36,7 @@ class HFPManager(EventDispatcher):
 
     def call(self, number):
         self.modem.Dial(number, '')
-        self.status = "dialling"
         Logger.info('HFP: Call initialised')
-
-    def end_call(self, call):
-        call.Hangup()
 
     def on_property_changed(self, sender, message):
         Logger.info('Telephony: '+sender+' changed to '+message)
@@ -55,9 +51,6 @@ class HFPManager(EventDispatcher):
             self.carrier = message
         elif sender == 'Strength':
             self.network_strength = message
-
-    def accept_call(self, call):
-        call.Accept()
 
     def on_call_added(self, path, properties):
         call = Call(path, self.bluetooth, properties, self)
@@ -105,3 +98,9 @@ class Call(EventDispatcher):
             if (self.state == 'held' or self.state == 'disconnected'):
                 self.hfp.attention = [None, None]
                 Logger.info('Call: Attention realeased')
+
+    def hangup(self):
+        self.object.Hangup()
+
+    def accept(self):
+        self.object.Accept()

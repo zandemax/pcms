@@ -13,6 +13,7 @@ class CallScreenActive(CallScreen):
         self.pbap = pbap
         Clock.schedule_interval(self.on_tick, 1)
         hfp.bind(attention=self.on_call_change)
+        self.ids.end.bind(on_press=self.on_end)
 
     def on_call_change(self, instance, value):
         if value[0] is not None:
@@ -26,3 +27,6 @@ class CallScreenActive(CallScreen):
         calltime_string = str(floor(self.calltime/60)%60)+':'+str(floor(self.calltime)%60).zfill(2)
         self.ids.elapsed.text = calltime_string
         return self.clockstop
+
+    def on_end(self, instance):
+        self.parent.active_call.hangup()

@@ -10,6 +10,7 @@ class CallScreenDialling(CallScreen):
         Clock.schedule_interval(self.on_timeout, 1)
         hfp.bind(attention=self.on_call_change)
         self.pbap = pbap
+        self.ids.end.bind(on_press=self.on_end)
 
     def on_call_change(self, instance, value):
         if value[0] is not None:
@@ -25,3 +26,6 @@ class CallScreenDialling(CallScreen):
         else:
             self.ids.dialling.text = "dialling"
             self.x = 0
+
+    def on_end(self, instance):
+        self.parent.active_call.hangup()

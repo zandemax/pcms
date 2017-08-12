@@ -27,7 +27,7 @@
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -35,28 +35,31 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
-        text: "+49 172 1471643"
+        color: 0.9, 0.9, 0.9, 0.7
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "incoming call"
 
-    Button:
-        pos_hint: {'center_x': 0.25, 'top': 0.3}
+    ImageButton:
+        pos_hint: {'center_x': 0.25, 'top': 0.4}
+        height: 70
         size_hint: None, None
-        background_normal: '/home/zandemax/coding/pcms/img/icon_phone.png'
+        source: '/home/zandemax/coding/pcms/img/icon_phone.png'
+        id: accept
 
-    Button:
-        pos_hint: {'center_x': 0.75, 'top': 0.3}
+    ImageButton:
+        pos_hint: {'center_x': 0.75, 'top': 0.4}
+        height: 70
         size_hint: None, None
-        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: decline
 
 
 <CallScreenDialling>:
@@ -64,7 +67,7 @@
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -72,25 +75,26 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.7
         text: "+49 172 1471643"
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "dialling"
         id: dialling
 
-    Button:
+    ImageButton:
         pos_hint: {'center_x': 0.5, 'top': 0.3}
         size_hint: None, None
-        color: 1,0,0,1
-        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: end
 
 
 <CallScreenActive>:
@@ -98,7 +102,7 @@
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1
+            rgba: 5/256, 5/256, 5/256, 1
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -106,24 +110,26 @@
 
     Label:
         font_size: 40
-        pos_hint: {'center_x': 0.5, 'top': 0.9}
+        pos_hint: {'center_x': 0.5, 'top': 0.8}
         size_hint: None, None
-        color: 0.2, 0.2, 0.2, 0.7
+        color: 0.9, 0.9, 0.9, 0.7
         text: "+49 172 1471643"
         id: number
 
     Label:
         font_size: 20
-        pos_hint: {'center_x': 0.5, 'top': 0.8}
+        pos_hint: {'center_x': 0.5, 'top': 0.7}
         size_hint: None, None
-        color: 0.4, 0.4, 0.4, 0.7
+        color: 0.7, 0.7, 0.7, 0.7
         text: "00:00"
         id: elapsed
 
-    Button:
+    ImageButton:
         pos_hint: {'center_x': 0.5, 'top': 0.3}
         size_hint: None, None
-        background_normal: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        height: 70
+        source: '/home/zandemax/coding/pcms/img/icon_phone_end.png'
+        id: end
 
 
 <MusicScreen>
@@ -606,7 +612,7 @@
 #    height: 30
     canvas.before:
         Color:
-            rgba: 1, 1, 1, .9
+            rgba: 1, 1, 1, .1
         Rectangle:
             size: self.size[0]-100,self.size[1]
             pos: 50, 0
@@ -615,14 +621,14 @@
         pos: (self.parent.width/2)-50, 10
         size_hint: None, None
         text: self.parent.name
-        color: .2,.2,.2,1
+        color: .9,.9,.9,1
 
     Label:
         font_size: 20
         pos: (self.parent.width/2)-50, -20
         size_hint: None, None
         text: self.parent.number
-        color: .3,.3,.3,1
+        color: .7,.7,.7,1
 
 <ContactViewDummy>:
 #    height: 30
