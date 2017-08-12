@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.uix.screenmanager import CardTransition
+#from kivy.uix.screenmanager import CardTransition
 from kivy.support import install_gobject_iteration
 from dbushelpers import (A2DPManager, HFPManager,
                          PhonebookManager, BluetoothManager)
@@ -47,7 +47,7 @@ class UserInterface(App):
                                              hfp=self.hfp, pbap=self.pbap))
         screenmanager.add_widget(SettingsScreen(name='settingsscreen'))
         screenmanager.current = 'settingsscreen'
-        screenmanager.transition = CardTransition()
+#        screenmanager.transition = CardTransition()
         screenmanager.transition.duration = .1
         self.sm = screenmanager
         self.screen_names = {'musicscreen': 'Music',
