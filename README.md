@@ -16,11 +16,16 @@ bluez
 ofono
 pydbus
 kivy
+vobject
+python-gobject
+python-can
 ```
 
 ## Built With
 
 * [Kivy](http://kivy.org) - Graphics Framework
+* [VObject] (http://eventable.github.io/vobject/) - For parsing VCards
+* [python-can] (https://github.com/hardbyte/python-can) - CAN support
 
 ## Authors
 
