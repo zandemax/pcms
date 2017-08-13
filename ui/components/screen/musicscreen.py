@@ -2,14 +2,14 @@ from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
 from math import floor
 from kivy.logger import Logger
-from helpers.albumart import AlbumArtHelper
+#from helpers.albumart import AlbumArtHelper
 
 
 class MusicScreen(Screen):
 
     def __init__(self, name, a2dp, app):
         super().__init__(name=name)
-        self.arthelper = AlbumArtHelper()
+#        self.arthelper = AlbumArtHelper()
         self.a2dp = a2dp
         self.app = app
         a2dp.bind(title=self.on_title_change)
