@@ -74,7 +74,7 @@ class MusicScreen(Screen):
 
     def progress_callback(self, dt):
         if self.a2dp.status == 'playing':
-            self.a2dp.current_pos = self.a2dp.current_pos + 50
+            self.a2dp.current_pos = self.a2dp.current_pos + dt
             self.ids.elapsed.text = str(floor(self.a2dp.current_pos/(1000*60))%60)+':'+str(floor(self.a2dp.current_pos/1000)%60).zfill(2)
             try:
                 self.ids.progressbar.value = (self.a2dp.current_pos/self.a2dp.duration)*100
